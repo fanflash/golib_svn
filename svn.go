@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"os/exec"
 	"strings"
+	"io/ioutil"
+	"golang.org/x/text/encoding/simplifiedchinese"
+	"golang.org/x/text/transform"
 )
 
 //默认的设置值
@@ -49,7 +52,15 @@ func exeSvn(svnCmd string, option SvnGlobalOptions, args ...string) (*SvnResult,
 	cmd.Stderr = &stderr
 	err := cmd.Run()
 	if err != nil {
-		return nil, newError(cmdStr, err, stderr.String())
+		return nil, newError(cmdStr, err, Gbk2Utf8(stderr.String()))
 	}
-	return &SvnResult{Cmd: cmdStr, Result: stdout.String()}, nil
+	return &SvnResult{Cmd: cmdStr, Result: Gbk2Utf8(stdout.String())}, nil
+}
+
+func Gbk2Utf8(src string) string {
+	tar, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(src)), simplifiedchinese.GBK.NewDecoder()))
+	if err != nil {
+		return src
+	}
+	return string(tar)
 }

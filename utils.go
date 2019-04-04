@@ -1,7 +1,11 @@
 package svn
 
+import (
+	"net/url"
+)
+
 //一个目录或文件的svn地址是否跟url相同
-func IsSvnPath(target string, url string,option SvnGlobalOptions)(curUrl string, isSame bool){
+func IsSvnPath(target string, svnUrl string,option SvnGlobalOptions)(curUrl string, isSame bool){
 	result,err := Info(option,target)
 	if err != nil{
 		return "",false;
@@ -9,7 +13,6 @@ func IsSvnPath(target string, url string,option SvnGlobalOptions)(curUrl string,
 	if len(result.Entrys)<1{
 		return  "",false;
 	}
-
-	curUrl = result.Entrys[0].Url;
-	return curUrl, curUrl == url;
+	curUrl,_ = url.QueryUnescape(result.Entrys[0].Url)
+	return curUrl, curUrl == svnUrl;
 }

@@ -65,5 +65,5 @@ func InfoByOne(path string, option SvnGlobalOptions) (*InfoResult, *SvnError) {
 		return nil, newError(result.Cmd,errors.New("len(result.Entrys) < 1 "),"")
 	}
 
-	return result, err
+	return result, nil
 }

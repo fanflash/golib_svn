@@ -14,5 +14,8 @@ func IsSvnPath(target string, svnUrl string,option SvnGlobalOptions)(curUrl stri
 		return  "",false;
 	}
 	curUrl,_ = url.QueryUnescape(result.Entrys[0].Url)
+	if curUrl != svnUrl{
+		svnUrl,_ = url.QueryUnescape(svnUrl)
+	}
 	return curUrl, curUrl == svnUrl;
 }

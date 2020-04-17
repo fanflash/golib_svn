@@ -25,7 +25,7 @@ type RepositoryInfo struct {
 }
 
 type WcInfo struct {
-	RootAbspath string `xml:"wcroot-abspath"`
+	RootAbsPath string `xml:"wcroot-abspath"`
 	Schedule    string `xml:"schedule"`
 	TextUpdated string `xml:"text-updated"`
 	CheckSum    string `xml:"checksum"`

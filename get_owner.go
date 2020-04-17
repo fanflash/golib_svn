@@ -9,7 +9,7 @@ type OwnerInfo struct {
 //得到一个路径的所有者信息
 //如果返回的信息里没有带信息，说明没有查询到条目
 //如果queryLimit足够大，那么FirstAuthor也可以当作第一个提交的人
-func GetOwnerByPath(filePath string, queryLimit int, option SvnGlobalOptions) (owner OwnerInfo, err error) {
+func GetOwnerByPath(filePath string, queryLimit int, option SvnGlobalOptions) (owner OwnerInfo, err *SvnError) {
 	result, err := Log(filePath, "", queryLimit, option)
 	if err != nil {
 		return OwnerInfo{}, err

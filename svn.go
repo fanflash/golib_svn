@@ -57,9 +57,9 @@ func exeSvn(svnCmd string, option SvnGlobalOptions, args ...string) (*SvnResult,
 	cmd.Stderr = &stderr
 	err := cmd.Run()
 	if err != nil {
-		return nil, newError(cmdStr, err, Gbk2Utf8(stderr.String()))
+		return nil, newError(cmdStr, err, stderr.String())
 	}
-	return &SvnResult{Cmd: cmdStr, Result: Gbk2Utf8(stdout.String())}, nil
+	return &SvnResult{Cmd: cmdStr, Result: stdout.String()}, nil
 }
 
 func Gbk2Utf8(src string) string {

@@ -11,7 +11,13 @@ type LogEntry struct {
 	Date    string `xml:"date"`
 	Msg     string `xml:"msg"`
 }
-
+type PathInfo struct {
+	Action   string `xml:"action,attr"`
+	PropsMod bool   `xml:"prop-mods,attr"`
+	TextMods bool   `xml:"text-mods,attr"`
+	Kind     string `xml:"kind,attr"`
+	File     string `xml:",chardata"` // 使用 ",chardata" 来捕获元素内的文本内容作为字段值
+}
 type LogResult struct {
 	Cmd       string
 	LogEntrys []LogEntry `xml:"logentry"`
@@ -29,10 +35,11 @@ type LogResult struct {
 //                                'PREV'       revision just before COMMITTED
 //@param limit "最大的查询行数"
 //@param option: svn的选项，默认为空
-func Log(pathOrUrl string, revision string, limit int, option SvnGlobalOptions) (*LogResult, *SvnError) {
+func Log(pathOrUrl string, revision string, limit int, option SvnGlobalOptions, others ...string) (*LogResult, *SvnError) {
 	args := NewArgs(5)
 	args.AddIf2("-r", revision)
 	args.Add("--xml")
+	args.Add(others[0])
 	args.AddIf(limit > 0, "-l", strconv.Itoa(limit))
 	args.Add(pathOrUrl);
 	result, err := exeSvn("log", option, args.Args...)

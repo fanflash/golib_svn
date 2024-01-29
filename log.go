@@ -10,6 +10,7 @@ type LogEntry struct {
 	Author  string `xml:"author"`
 	Date    string `xml:"date"`
 	Msg     string `xml:"msg"`
+	Paths   []PathInfo `xml:"paths>path"`
 }
 type PathInfo struct {
 	Action   string `xml:"action,attr"`
